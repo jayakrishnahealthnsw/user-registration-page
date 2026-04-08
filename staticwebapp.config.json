@@ -16,6 +16,11 @@
         "Cache-Control": "public, max-age=31536000, immutable"
       }
     },
+    { "route": "/nswhp-logo.png", "rewrite": "/portal/nswhp-logo.png" },
+    { "route": "/HealthLink.png", "rewrite": "/portal/HealthLink.png" },
+    { "route": "/pathworks.png", "rewrite": "/portal/pathworks.png" },
+    { "route": "/more_ids.png", "rewrite": "/portal/more_ids.png" },
+    { "route": "/favicon.ico", "rewrite": "/portal/favicon.ico" },
     {
       "route": "/login",
       "rewrite": "/login/index.html"
