@@ -41,10 +41,13 @@ jobs:
           npm ci
           npx ng build --configuration production --base-href /portal/
 
-      # Merge outputs: login app at dist/, Angular portal at dist/portal/
+      # Merge outputs: login app at dist/login/, Angular portal at dist/portal/
       - name: Merge build outputs
         run: |
+          mv dist dist_login_temp
+          mkdir -p dist/login
           mkdir -p dist/portal
+          cp -r dist_login_temp/. dist/login/
           cp -r practitioner-portal-src/dist/practitioner-portal/browser/. dist/portal/
           cp staticwebapp.config.json dist/
 
