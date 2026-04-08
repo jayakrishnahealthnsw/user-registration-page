@@ -50,6 +50,7 @@ jobs:
           cp -r dist_login_temp/. dist/login/
           cp -r practitioner-portal-src/dist/practitioner-portal/browser/. dist/portal/
           cp staticwebapp.config.json dist/
+          echo '<html><head><meta http-equiv="refresh" content="0;url=/login"></head></html>' > dist/index.html
 
       - name: Build And Deploy
         id: builddeploy
