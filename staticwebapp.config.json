@@ -1,6 +1,10 @@
 {
   "routes": [
     {
+      "route": "/",
+      "redirect": "/login"
+    },
+    {
       "route": "/login",
       "rewrite": "/login/index.html"
     },
@@ -24,10 +28,11 @@
     {
       "route": "/register/*",
       "rewrite": "/portal/index.html"
+    },
+    {
+      "route": "/portal/*",
+      "rewrite": "/portal/index.html",
+      "excludedPaths": ["/portal/*.js", "/portal/*.css", "/portal/*.png", "/portal/*.svg", "/portal/*.ico", "/portal/*.json", "/portal/*.woff", "/portal/*.woff2"]
     }
-  ],
-  "navigationFallback": {
-    "rewrite": "/login/index.html",
-    "exclude": ["/portal/*", "/login/*", "/assets/*", "/*.{js,css,png,jpg,svg,ico,woff,woff2,ttf,json}"]
-  }
+  ]
 }

@@ -40,7 +40,7 @@ jobs:
         working-directory: practitioner-portal-src
         run: |
           npm ci
-          npx ng build --configuration production
+          npx ng build --configuration production --base-href /portal/
 
       # Merge outputs: login app at dist/, Angular portal at dist/portal/
       - name: Merge build outputs
