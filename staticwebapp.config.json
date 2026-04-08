@@ -1,6 +1,33 @@
 {
+  "routes": [
+    {
+      "route": "/login",
+      "rewrite": "/login/index.html"
+    },
+    {
+      "route": "/login/*",
+      "rewrite": "/login/index.html",
+      "excludedPaths": ["/login/assets/*"]
+    },
+    {
+      "route": "/dashboard",
+      "rewrite": "/portal/index.html"
+    },
+    {
+      "route": "/dashboard/*",
+      "rewrite": "/portal/index.html"
+    },
+    {
+      "route": "/register",
+      "rewrite": "/portal/index.html"
+    },
+    {
+      "route": "/register/*",
+      "rewrite": "/portal/index.html"
+    }
+  ],
   "navigationFallback": {
-    "rewrite": "/index.html",
-    "exclude": ["/assets/*", "/*.{js,css,png,jpg,svg,ico,woff,woff2,ttf,json}"]
+    "rewrite": "/login/index.html",
+    "exclude": ["/portal/*", "/login/*", "/assets/*", "/*.{js,css,png,jpg,svg,ico,woff,woff2,ttf,json}"]
   }
 }
