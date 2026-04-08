@@ -50,6 +50,8 @@ export function YourDetailsPage() {
 
   const idp = (incoming.idp as "email" | "nsw" | "google" | "apple" | null) ?? null;
   const isEmailLocked = idp === "google" || idp === "apple" || idp === "nsw";
+  const isNswLocked = idp === "nsw";
+  const hideDob = isEmailLocked || idp === "email";
   const providerName = idp === "google" ? "Google" : idp === "apple" ? "Apple" : idp === "nsw" ? "@health.nsw.gov.au" : undefined;
 
   // Seed with test data (IDP values override if present)
@@ -88,15 +90,17 @@ export function YourDetailsPage() {
   else if (firstName.trim().length < 2) errors.firstName = "Must be at least 2 characters.";
   if (!lastName.trim()) errors.lastName = "Last name is required.";
   else if (lastName.trim().length < 2) errors.lastName = "Must be at least 2 characters.";
-  if (!dob) {
-    errors.dob = "Date of birth is required.";
-  } else {
-    const d = new Date(dob);
-    if (isNaN(d.getTime())) errors.dob = "Enter a valid date.";
-    else {
-      const age = CURRENT_YEAR - d.getFullYear();
-      if (age < 18) errors.dob = "You must be at least 18 years old.";
-      else if (age > 100) errors.dob = "Please enter a valid date of birth.";
+  if (!hideDob) {
+    if (!dob) {
+      errors.dob = "Date of birth is required.";
+    } else {
+      const d = new Date(dob);
+      if (isNaN(d.getTime())) errors.dob = "Enter a valid date.";
+      else {
+        const age = CURRENT_YEAR - d.getFullYear();
+        if (age < 18) errors.dob = "You must be at least 18 years old.";
+        else if (age > 100) errors.dob = "Please enter a valid date of birth.";
+      }
     }
   }
   if (!email.trim()) errors.email = "Work email address is required.";
@@ -107,7 +111,7 @@ export function YourDetailsPage() {
   const canProceed =
     firstName.trim().length >= 2 &&
     lastName.trim().length >= 2 &&
-    !!dob &&
+    (hideDob || !!dob) &&
     validateEmailFormat(email) &&
     validateAuMobile(mobile);
 
@@ -174,33 +178,45 @@ export function YourDetailsPage() {
           <div style={{ display: "flex", gap: 12 }}>
             <div style={{ flex: 1 }}>
               <FieldLabel htmlFor="firstName" required>First name</FieldLabel>
-              <TextInput
-                id="firstName"
-                placeholder="e.g. Jane"
-                value={firstName}
-                onChange={setFirstName}
-                autoComplete="given-name"
-                onBlur={() => touch("firstName")}
-                hasError={!!(show("firstName") && errors.firstName)}
-              />
-              {show("firstName") && errors.firstName && <InlineError message={errors.firstName} />}
+              {isNswLocked ? (
+                <ReadOnlyField id="firstName" label="" value={firstName} required={false} />
+              ) : (
+                <>
+                  <TextInput
+                    id="firstName"
+                    placeholder="e.g. Jane"
+                    value={firstName}
+                    onChange={setFirstName}
+                    autoComplete="given-name"
+                    onBlur={() => touch("firstName")}
+                    hasError={!!(show("firstName") && errors.firstName)}
+                  />
+                  {show("firstName") && errors.firstName && <InlineError message={errors.firstName} />}
+                </>
+              )}
             </div>
             <div style={{ flex: 1 }}>
               <FieldLabel htmlFor="lastName" required>Last name</FieldLabel>
-              <TextInput
-                id="lastName"
-                placeholder="e.g. Smith"
-                value={lastName}
-                onChange={setLastName}
-                autoComplete="family-name"
-                onBlur={() => touch("lastName")}
-                hasError={!!(show("lastName") && errors.lastName)}
-              />
-              {show("lastName") && errors.lastName && <InlineError message={errors.lastName} />}
+              {isNswLocked ? (
+                <ReadOnlyField id="lastName" label="" value={lastName} required={false} />
+              ) : (
+                <>
+                  <TextInput
+                    id="lastName"
+                    placeholder="e.g. Smith"
+                    value={lastName}
+                    onChange={setLastName}
+                    autoComplete="family-name"
+                    onBlur={() => touch("lastName")}
+                    hasError={!!(show("lastName") && errors.lastName)}
+                  />
+                  {show("lastName") && errors.lastName && <InlineError message={errors.lastName} />}
+                </>
+              )}
             </div>
           </div>
 
-          <div>
+          {!hideDob && <div>
             <FieldLabel htmlFor="dobDay" required>Date of birth</FieldLabel>
             <div style={{ display: "flex", gap: 8 }}>
               <SelectInput
@@ -257,7 +273,7 @@ export function YourDetailsPage() {
               ? <InlineError message={errors.dob} />
               : <p style={{ fontSize: 12, color: "#6D7579", marginTop: 5 }}>Used to verify your identity. Format: DD / Month / YYYY.</p>
             }
-          </div>
+          </div>}
 
           <div>
             <FieldLabel htmlFor="email" required>Work email address</FieldLabel>

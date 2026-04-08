@@ -47,7 +47,7 @@ export function HomePage() {
             Practitioner Self-Registration
           </h3>
           <p style={{ fontSize: 14, color: "#22272B", lineHeight: 1.6, maxWidth: 380, margin: "0 auto" }}>
-            Create your PathWorks account in three quick steps. This process takes
+            Create your Portal account in three quick steps. This process takes
             approximately <strong>3–5 minutes</strong> to complete.
           </p>
         </div>

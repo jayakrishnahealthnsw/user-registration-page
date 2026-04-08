@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router";
 import { Layout } from "../components/shared/Layout";
 import { Eye, EyeOff, Mail, Loader2 } from "lucide-react";
@@ -55,6 +55,17 @@ export function LandingPage() {
   const [loginAttempted, setLoginAttempted] = useState(false);
   const [redirecting, setRedirecting] = useState<IdpOption>(null);
 
+  // Clear spinner if browser restores this page from bfcache (Back button)
+  useEffect(() => {
+    const handlePageShow = (e: PageTransitionEvent) => {
+      if (e.persisted) {
+        setRedirecting(null);
+      }
+    };
+    window.addEventListener('pageshow', handlePageShow);
+    return () => window.removeEventListener('pageshow', handlePageShow);
+  }, []);
+
   const inputStyle: React.CSSProperties = {
     width: "100%",
     padding: "10px 14px",
@@ -90,18 +101,17 @@ export function LandingPage() {
   const handleLogin = () => {
     setLoginAttempted(true);
     if (!email || !password) return;
-    window.location.href = "http://localhost:4200/dashboard";
+    window.location.href = "/dashboard";
   };
 
   const handleProviderLogin = (provider: IdpOption) => {
     if (!provider) return;
     setRedirecting(provider);
-    const claims = IDP_TOKEN_CLAIMS[provider] ?? {};
     setTimeout(() => {
-      navigate("/register/your-details", {
-        state: { idp: provider, email: claims.email, firstName: claims.firstName, lastName: claims.lastName },
-      });
-    }, 400);
+      // Replace the spinner history entry with a clean /login so Back works correctly
+      window.history.replaceState(null, '', '/login');
+      window.location.assign("/dashboard");
+    }, 1800);
   };
 
   const emailError = loginAttempted && !email;

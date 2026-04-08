@@ -10,7 +10,7 @@ export function SuccessPage() {
   const firstName = state.firstName ?? "Jane";
 
   const handleSignIn = () => {
-    window.open("https://nap-mono-25794994.figma.site/login", "_blank", "noopener,noreferrer");
+    window.location.href = "/dashboard";
   };
 
   return (
@@ -34,7 +34,7 @@ export function SuccessPage() {
           </h3>
           <p style={{ fontSize: 14, color: "#6D7579", lineHeight: 1.6, maxWidth: 380, margin: "0 auto" }}>
             Thank you, <strong style={{ color: "#22272B" }}>{firstName}</strong>.
-            Your PathWorks account has been created and your email address has been verified.
+            Your Portal account has been created and your email address has been verified.
           </p>
         </div>
 
@@ -138,7 +138,7 @@ export function SuccessPage() {
           onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = "#00173D")}
           onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = "#002664")}
         >
-          Sign in to PathWorks
+          Sign in to Portal
         </button>
 
         <p style={{ fontSize: 12, color: "#9BA1A6", lineHeight: 1.5, maxWidth: 360 }}>

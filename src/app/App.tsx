@@ -51,7 +51,7 @@ const router = createBrowserRouter([
     path: "/forgot-password",
     Component: ForgotPasswordPage,
   },
-]);
+], { basename: "/login" });
 
 export default function App() {
   return <RouterProvider router={router} />;

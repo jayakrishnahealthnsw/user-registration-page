@@ -117,7 +117,7 @@ export function SelectProviderPage() {
             How would you like to continue?
           </h3>
           <p style={{ fontSize: 13, color: "#6D7579", lineHeight: 1.5 }}>
-            Choose your preferred sign-in method to create your PathWorks account.
+            Choose your preferred sign-in method to create your Portal account.
           </p>
         </div>
 
